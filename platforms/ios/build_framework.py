@@ -213,6 +213,11 @@ class Builder:
             "-DOPENCV_3P_LIB_INSTALL_PATH=lib/3rdparty",
             "-DFRAMEWORK_NAME=%s" % self.framework_name,
         ]
+        # Allow optional extra CMake flags via environment for local packaging tweaks
+        # (e.g., forcing C++17 or bundling protobuf). Space-separated list.
+        extra_flags = os.environ.get("EXTRA_CMAKE_FLAGS")
+        if extra_flags:
+            args += extra_flags.split()
         if self.dynamic:
             args += [
                 "-DDYNAMIC_PLIST=ON"
